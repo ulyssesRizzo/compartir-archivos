@@ -1,0 +1,30 @@
+***********************************************************************************************************************************
+How to install drivers for SR2MOD01 and SR2MOD02 modems in Windows Vista 32 bits and Windows7 32 and 64 bits and Windows8.1 64 bits:
+
+- in the configuration panel, select the modem option and telephony, than under the ‘modems’ tab, click on the “add” button
+- tick the “my modem is not detected”, then click on the “next” button
+- click on “disk provided”, then go to the modem drivers directory of ZelioSoft 2
+- select Vista32
+- select MultitechA.INF
+- under the drop-down list, select:
+	- “MultiTech MT5634SMI-V92” for SR2MOD01
+	- “MultiTech Systems GSM_GPRS Wireless Modem” for SR2MOD02
+
+- enter the modem properties, then modify the following parameters:
+	- speed: 115200
+	- 7 data bits
+	- pair parity
+	- 1 stop bit
+
+************************************************************************************************************************************
+How to install drivers for SR2MOD01 and SR2MOD02 modems in OS Windows prior to Vista:
+- in the configuration panel, select the modem option and telephony, than under the ‘modems’ tab, click on the “add” button
+- tick the “my modem is not detected”, then click on the “next” button
+- in the default modems, select ‘modem standard 56000bps’
+- enter the modem properties, then modify the following parameters:
+	- speed: 115200
+	- 7 data bits
+	- pair parity
+	- 1 stop bit
+
+***********************************************************************************************************************************

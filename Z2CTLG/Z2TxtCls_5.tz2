@@ -1,0 +1,433 @@
+//DEP 31/10/01 : correction d'une erreur de syntaxe (espace en trop)
+//DEP 31/10/01 : correction de la sortie TOR (retrait de la ligne "1_sortie_TOR   1_DO_(Sortie_TOR) ")
+//DEP 31/10/01 : Backlight(53) : le titre a changé, est-ce voulu ? (avant c'était "BK-LIGHT (Retro-éclairage_LCD_du_contrôleur)")
+//DEP 31/10/01 : Le texte est faux pour le MUX. ("58   Affichage_sur_le_LCD   MUX_(Multiplexage)    ")
+//DEP 31/10/01 : Ajout des alias pour la fonction 33 ("33   Entrée_analogique_0..10V   AI_(Entrée_analogique_0..10V)  ")
+//DEP 26/11/01 : Correction inversion boutons ESC et OK
+//PCH 04/12/01 : Suppression des numéros pour les icones multiples (E/S)
+//PCH 18/12/01 : Ajout patte manquante sur FBD 5
+//JJB 24/04/03 : Ajout des noms des fonctions métiers devenues FBD, des boutons Zx et des fonctions LD
+//				 Suppression de la fonction sortie PWM
+//DEP 24/04/03   Suppression de la sortie vers modif time prog pour fonction 30
+//				 Passage sur une seule ligne des entrées et sorties de certains blocs
+//JJB 05/06/03	 Dans Compteur horaire à preselection ENTREE_CUMUL remplace COMMANDE
+//				 Dans retro eclairage LCD VALIDATION_FONCTION remplace  RETRO-ECLAIRAGE
+//				 Dans multiplexage SELECTION remplace  COMMANDE
+//				 Dans heure ete HEURE-ETE remplace  ETE=MARCHE
+//				 Mise a jour de toutes les fonction LD
+//DEP 23/06/03   Inversion Z2 et Z4
+//LDV 27/06/03   Changement de I2L_REMISE_A_ZERO en I2L_RESET de la fonction TEMPORISATEUR LD
+//JJB 27/08/03   Dans CAM BLOC remplacement de O1R_SORTIE_8 par O8R_SORTIE_8  
+//JJB 07/10/03   AJOUT FBD 84 COMPTEUR_RAPIDE, 85 CONVERSION_MOT_BITS, 86 CONVERSION_BITS_MOT
+//		     AJOUT LD 173 COMPTEUR_RAPIDE
+//JJB 08/10/03   Remplacement de IL1_ARRET_COMPTEUR par IL1_VALIDATION_FONCTION dans COMPTEUR_RAPIDE 
+
+//JJB 03/12/03   Remplacement de IL1 par I1L dans 173 (Compteur rapide LD) 
+
+//JJB 04/12/03   Remplacement DES traductions de CHOIX et FIN_CHOIX dans 33, 35 et 38
+//		     Remplacement des espaces par _ dans blocs 5 et 30
+//		     Traduction du premier nom du bloc fonction 84
+//JJB 09/12/03   Remplacement de IL1 par I1L dans 84 (Compteur rapide FBD)
+
+//JJB 15/12/03   IPR 394 Remplacement de MIN_>= par MIN_=< dans 32 (COMPARE_IN_ZONE)
+
+//JJB 18/12/03   Remplacement de "instrução" par "actual" dans 03R & O5R de 6 (FBD-TIMER_A/C) 
+//			PROBLEME PASSAGE MAJUSCULES vers minuscules 
+
+//JJB 23/12/03   Remplacement de "activação" par "desactivação"(Reset) dans I4L de 156(M) et 166(Q) 
+//			PROBLEME PASSAGE MAJUSCULES vers minuscules 
+
+//JJB 05/01/04 	Alignement des versions & release 1.00 des différents types de catalogues
+//
+//JJB 28/06/04 	Alignement des versions & release 1.01 des différents types de catalogues
+//
+//JJB 26/08/04 	Alignement des versions & release 1.03 des différents types de catalogues
+//
+//JJB 07/09/04 	Alignement des versions & release 1.04 des différents types de catalogues	
+//
+//JJB 07/09/04 	Alignement des versions & release 1.05 des différents types de catalogues	
+//
+//JJB 07/09/04 	Alignement des versions & release 1.06 des différents types de catalogues
+//
+//AC  11/10/04 	Alignement des versions & release 1.07 des différents types de catalogues
+//
+//GM  14/02/05  passage a la version 3.0.00
+//		ajout des deux nouvelles fonction IN_ANA_10_BITS et OUT_ANA_10_BITS
+//
+//DM  21/03/05  ajout fonction message Z2COM
+// GM 13/09/05   passage a la version 3.08
+//
+//GM 09/11/05	correction IPR 830
+//GM 04/01/06	correction IPR 1277
+//GM 27/04/06	passage à la version 3.1.13 et retour fbd texte et ajout 48 vac et modif texte ethernet
+//GM 04/05/06	correction numéro ethernet et nom ethernet
+//GM 09/05/06	reduction du nb E/S extension ethernet à 4
+//GM 29/05/06	rajout des fonctions 90 à 98 et traduction des fon,ction 87 à 89
+//GM 03/07/06	modif numero version ld 48 vac et texte aucun du Z2COM traduit dans toutes les langues
+//GM 30/08/06	traduction du mot message en italien
+//PB 30/03/10	Ajout Suntrack et sunrise 
+
+//====================================================================
+CATALOGUEZ2          DATE 	20/03/2017	VERSION  1.32
+
+CATALOGUE_DES_NOMS_DE_FONCTIONS_STANDARD
+
+// Français
+// Ne pas traduire les IxL, les OxR, les IxU et les OxD
+// Ne pas traduire les textes en anglais (en MAJUSCULES) et précèdent _( dans la première ligne de chaque fonction
+
+// Fonctions FBD ///////////////////////////////////////////////////////////////
+
+	1   Telerruptor   BISTABLE_(Telerruptor)    
+	   		I1L_Comando   I2L_Reposição_a_zero 
+	   		O1R_Saída
+			
+	2   E_lógico   AND_(E_lógico)             
+	   		I1L_Entrada_1   I2L_Entrada_2    I3L_Entrada_3   I4L_Entrada_4
+	   		O1R_Saída
+			
+	3   Função_Booleana   BOOLEAN_(Função_Booleana)    
+	   		I1L_Entrada_1   I2L_Entrada_2    I3L_Entrada_3   I4L_Entrada_4
+	   		O1R_Saída
+			
+	4   Comparação_de_2_valores   COMPARE_(Comparação_de_2_valores)    
+	   		I1L_Validação_função  I2L_Valor_1   I3L_Valor_2   
+	   		O1R_Saída  
+				
+	5   Contador_incrementador_/_decrementador_por_pré-selecção   PRESET_COUNT_(Contador_incrementador/decrementador_por_pré-selecção)
+	   		I1L_Contagem   I2L_Decontagem  I3L_Inicialização
+	   		O1R_Saída O2R_Valor_de_pré-selecção O3R_Valor_actual O4R_Valor_actual_temporização
+			
+	6   Temporizador_A/C   TIMER_A/C_(Temporizador_A/C)    
+	   		I1L_Comando   I2L_Reposição_a_zero
+	   		O1R_Saída O2R_Valor_instrução_atraso_arranque O3R_Valor_actual_atraso_arranque O4R_Valor_instrução_atraso_arranque O5R_Valor_actual_atraso_arranque 
+
+	7   Visualização_no_LCD   DISPLAY_(Visualização_no_LCD)    
+	   	    I1L_Validação_função     I2L_Entrada_valor
+			
+	8   Temporização_dupla   Timer_Li_(Temporização_dupla)   
+	   		I1L_Comando   
+	   		O1R_Saída  O2R_Valor_instrução_arranque O3R_Valor_actual_arranque O4R_Valor_instrução_paragem  O5R_Valor_actual_paragem  O6R_Número/Duração_intermitências O7R_Valor_actual_número/duração_intermitências	   
+			
+	9   Ganho_=_A/B_x_valor_+_C   GAIN_(Ganho_=_A/B_x_valor_+_C) 
+	   		I1L_Validação_função  I2L_Entrada_cálculo   
+	   		O1R_Saída_cálculo
+			
+	10   Contador_horário_por_pré-selecção   PRESET_H-METER_(Contador_horário_por_pré-selecção)
+	   		I1L_Comando   I2L_Reposição_a_zero    
+	   		O1R_Saída O2R_Valor_instrução_número_de_horas	O3R_Valor_actual_número_de_horas O4R_Valor_instrução_número_de_minutos O5R_Valor_actual_número_de_minutos
+		
+	21   E_NÃO_lógico   NAND_(E_NÃO_lógico)   
+	   		I1L_Entrada_1   I2L_Entrada_2    I3L_Entrada_3   I4L_Entrada_4
+	   		O1R_Saída	
+			
+	22   OU_NÃO_lógico   NOR_(OU_NÃO_lógico)  
+	   		I1L_Entrada_1   I2L_Entrada_2    I3L_Entrada_3   I4L_Entrada_4
+	   		O1R_Saída	
+			
+	23   NÃO_lógico  NOT_(NÃO_lógico)   
+	   		I1L_Entrada_1
+	   		O1R_Saída
+
+	24   Temporizador_B/H   TIMER_B/H_(Temporizador_B/H)
+	   		I1L_Comando I2L_Reposição_a_zero   
+	   		O1R_Saída  O2R_Valor_instrução_arranque O3R_Valor_actual_arranque   
+			
+	25   OU_lógico)   OR_(OU_lógico) 
+	   		I1L_Entrada_1   I2L_Entrada_2    I3L_Entrada_3   I4L_Entrada_4
+	   		O1R_Saída	
+						
+	26   Impulsos_nas_frentes   TIMER_BW(Impulsos_nas_frentes)    
+	   		I1L_Comando    
+	   		O1R_Saída  
+			
+	27   Trigger_de_Schmitt   TRIGGER(Trigger_de_Schmitt)
+	   		I1L_Validação_função I2L_Valor_a_comparar I3L_Instrução_de_arranque_a_paragem I4L_Instrução_de_paragem_a_arranque
+	   		O1R_Saída 
+			
+	28   Báscula_RS   SET_RESET_(Báscula_RS)       
+	   		I1L_Set   I2L_Reset
+	   		O1R_Saída
+		
+	29   Programador_horário,_semanal_e_anual   TIME_PROG_(Programador_horário,_semanal_e_anual)
+ 			O1R_Saída
+			 
+	30	Contador_incrementador_decrementador	UP_DOWN_COUNTER_(Contador_incrementador_decrementador)
+			I1L_Contagem I2L_Decontagem I3L_Reposição_a_zero I4L_Substituição_pré-selecção I5L_Valor_de_pré-selecção
+			O1R_Saída	O2R_Valor_actual
+			
+	31   OU_exclusivo   XOR_(OU_exclusivo)    
+	   		I1L_Entrada_1   I2L_Entrada_2
+	   		O1R_Saída
+			
+	32   Comparação_MÍN_=<_valor_=<_MÁX   COMPARE_IN_ZONE(Comparação_MÍN_=<_valor_=<_MÁX)    
+	   		I1L_Validação_função I2L_Valor_a_comparar I3L_Valor_mini I4L_Valor_máxi
+	   		O1R_Saída
+			
+	33   Entrada_analógica_0..10V   AI_(Entrada_analógica_0..10V)  
+			O1R_ENTRADA_ANAL.
+			CHOIX
+				  Entrada_analógica_0...10V  AI_(Entrada_analógica_0...10V)  
+				  Entrada_analógica_0...V_ALIM     AI_(Entrada_analógica_0...V_ALIM)
+				  Entrada_analógica_0...10V  AI_(Entrada_analógica_0...10V)  
+			FIN_CHOIX
+
+	34   Entrada_analógica_filtrada   Filtered_AI_(Entrada_analógica_filtrada)
+			O1R_Entrada_anal_filtrada
+			
+	35   Entrada_DIG   DI_(Entrada_DIG)   
+			O1R_Entrada_DIG
+			CHOIX
+				  Contacto  DI_(Contacto)  
+				  Detector_de_posição     DI_(Detector_de_posição)
+				  Detector_de_proximidade    DI_(Detector_de_proximidade)
+				  Detector_de_presença      	  DI_(Detector_de_presença)
+				  Botão_pressão_luminoso  DI_(Botão_pressão_luminoso)
+				  Comutador               DI_(Comutador)
+				  Botão_pressão         DI_(Botão_pressão)
+				  Relé        DI_(Relé)
+			FIN_CHOIX
+			
+	36   Entrada_DIG_filtrada   Filtered_DI_(Entrada_DIG_filtrada)
+			O1R_Entrada_DIG_filtrada
+
+//	37   Saída_PWM   PWM_(Saída_PWM)        
+//			I1L_Saída_PWM
+			
+	38   Saída_DIG   DO_(Saída_DIG)    
+			I1L_Saída_DIG
+			CHOIX
+				  Contacto_normalmente_aberto     DO_(Contacto_normalmente_aberto)
+				  Ventilador    	             DO_(Ventilador)
+				  Lâmpada      	                 DO_(Lâmpada)
+				  Relé_estático                 Do_(Relé_estático)
+				  Válvula                          Do_(Válvula)
+				  Veio                          DO_(Veio)
+				  Motor                         DO_(Motor)
+				  Resistência                     DO_(Resistência)
+				  Sinal_sonoro                  DO_(Sinal_sonoro)				
+				  Sinalizador_óptico                        DO_(Sinalizador_óptico)				
+				  Sinalizador_óptico_verde                   DO_(Sinalizador_óptico_verde)			
+				  Sinalizador_óptico_vermelho                  DO_(Sinalizador_óptico_vermelho)			
+				  Sinalizador_óptico_laranja                 DO_(Sinalizador_óptico_laranja)		
+				  Aquecimento                     DO_(Aquecimento)	
+			FIN_CHOIX			
+			
+	39   Constante_"ARRANQUE"   Ct_ON_(Constante_"ARRANQUE")        
+			O1R_Nível_arranque_permanente
+			
+	40   Constante_"PARAGEM"   Ct_OFF_(Constante_"PARAGEM")  
+			O1R_Nível_paragem_permanente
+			
+	42   Etapa_inicial_reinicializável_SFC   RESET_INIT_(Etapa_inicial_reinicializável_SFC)    
+			I1U_Entrada_1_de_etapa  I2U_Entrada_2_de_etapa  I1L_Reinicialização  I2L_Transição
+			O1R_Saída_de_etapa  O1D_Saída_transição_de_etapa
+
+	43   Etapa_inicial_SFC   INIT_STEP(Etapa_inicial_SFC)    
+			I1U_Entrada_1_de_etapa  I2U_Entrada_2_de_etapa  I1L_Transição
+			O1R_Saída_de_etapa  O1D_Saída_transição_de_etapa
+			
+	44   Etapa_SFC   STEP(Etapa_SFC)    
+			I1U_Entrada_1_de_etapa  I2U_Entrada_2_de_etapa  I1L_Transição
+			O1R_Saída_de_etapa  O1D_Saída_transição_de_etapa
+			
+	45   Divergência_OU_para_2_ramos_SFC   DIV_OR_2(Divergência_OU_para_2_ramos_SFC)    
+			I1U_Entrada_1_de_etapa  I2U_Entrada_2_de_etapa  I1L_Transição_1  I2L_Transição_2
+			O1R_Saída_de_etapa  O1D_Saída_transição_1_de_divergência_em_OU  O2D_Saída_transição_2_de_divergência_em_OU
+
+	46   Convergência_OU_de_2_ramos_SFC   CONV_OR_2(Convergência_OU_de_2_ramos_SFC)   
+			I1U_Entrada_1_de_convergência_em_OU  I2U_Entrada_2_de_convergência_em_OU  I3U_Entrada_3_de_convergência_em_OU  I4U_Entrada_4_de_convergência_em_OU
+			O1D_Saída_de_convergência_em_OU 
+			
+	47   Divergência_E_para_2_ramos_SFC   DIV_AND_2(Divergência_E_para_2_ramos_SFC) 
+			I1U_Entrada_1_de_divergência_em_E  I2U_Entrada_2_de_divergência_em_E  
+			O1D_Saída_1_de_divergência_em_E  O2D_Saída_2_de_divergência_em_E
+			
+	48   Convergência_E_de_2_ramos_SFC   CONV_AND_2(Convergência_E_de_2_ramos_SFC)  
+			I1L_Transição I1U_Entrada_1_de_convergência_em_E  I2U_Entrada_2_de_convergência_em_E  I3U_Entrada_3_de_convergência_em_E  I4U_Entrada_4_de_convergência_em_E
+			O1D_Saída_de_transição_de_convergência_em_E  O1R_Saída_de_etapa_1_de_convergência_em_E  O2R_Saída_de_etapa_2_de_convergência_em_E
+			
+	49   Constante_numérica   NUM_(Constante_numérica)    
+			O1R_Constante_numérica
+			
+	50   Relógio_1_segundo   1_sec_(Relógio_1_segundo)    
+			O1R_Intermitente_1_s
+			
+	51   Botão_Z1   Z1_(Botão_Z1)  
+			O1R_Botão_Z1
+			
+	52   Botão_Z4   Z4_(Botão_Z4)  
+			O1R_Botão_Z4
+			
+	53   Retro-iluminação_LCD_do_controlador   Retro-iluminação_LCD_do_controlador    
+			I1L_Retro-iluminação
+			
+	//54   Botão_ESCape   ESC_(Botão_ESCape)   
+	//		O1R_BOTÃO_ESC
+
+	//55   Botão_OK   OK_(Botão_OK)    
+	//		O1R_BOTÃO_OK			
+
+			
+	56   Botão_Z3   Z3_(Botão_Z3)            
+			O1R_Botão_Z3
+			
+	57   Botão_Z2   Z2_(Botão_Z2)  
+			O1R_Botão_Z2
+				
+	58   Multiplexagem   MUX_(Multiplexagem)    
+			I1L_Selecção    I2L_Via_B		I3L_Via_A
+			O1R_Saída
+			
+	59   Hora_de_Verão   Hora_de_Verão    
+			O1R_Hora-Verão
+			
+	60   Introdução_de_um_inteiro   NUM_IN_(Introdução_de_um_inteiro)    
+			O1R_Entrada_valor
+			
+	61   Saída_de_um_inteiro   NUM_OUT_(Saída_de_um_inteiro)   
+			I1L_Saída_valor
+
+	62   Estado_módulo   STATUS_(Estado_módulo)   
+			O1R_Estado_alarme O2R_Run_monitoring 	O3R_Run_parametrização O4R_Inic_a_frio O5R_Inic_a_quente O6R_Intermitente_ciclo O7R_Número_alarme
+			
+	80	AD/SUB		AD/SUB
+			I1L_Propagação_de_erros	I2L_Entrada_1	I3L_Entrada_2	I4L_Entrada_3
+			O1R_Erro/Excesso		O2R_Saída_cálculo
+			
+	81	MUL/DIV		MUL/DIV
+			I1L_Propagação_de_erros	I2L_Entrada_1	I3L_Entrada_2	I4L_Entrada_3
+			O1R_Erro/Excesso		O2R_Saída_cálculo
+			
+	82	CAM/BLOQ	CAM/BLOQ
+			I1L_Avançar		I2L_Recuar		I3L_Reposição_a_zero
+			O1R_Saída_1 O2R_Saída_2 O3R_Saída_3 O4R_Saída_4  O5R_Saída_5 O6R_Saída_6 O7R_Saída_7 O8R_Saída_8 O9R_Posição
+			
+	83	ARQUIVO		ARQUIVO
+			I1L_Memorização	I2L_Reposição_a_zero	I3L_Valor_1 I4L_Valor_2
+			O1R_Arquivo_válido O2R_Minuto	O3R_Hora O4R_Dia O5R_Mês O6R_Ano O7R_Arquivo_1 O8R_Arquivo_2 
+
+	84	Contador_rápido FAST_COUNT_(Contador_rápido)
+	   		I1L_Validação_função  I2L_Inicialização
+	   		O1R_Saída O2R_Pré-selecção O3R_Actual O4R_Actual_Temporização
+
+	85	CONVERSÃO_PALAVRA_BITS CONVERSÃO_PALAVRA_BITS
+			I1L_Inteiro
+			O1R_Bit01-baixo O2R_Bit02 O3R_Bit03 O4R_Bit04 O5R_Bit05 O6R_Bit06 O7R_Bit07 O8R_Bit08 O9R_Bit09 O10R_Bit10 O11R_Bit11 O12R_Bit12 O13R_Bit13 O14R_Bit14 O15R_Bit15 O16R_Bit16-alto
+ 	  
+	86	CONVERSÃO_BITS_PALAVRA CONVERSÃO_BITS_PALAVRAS
+			I1L_Bit01-baixo I2L_Bit02 I3L_Bit03 I4L_Bit04 I5L_Bit05 I6L_Bit06 I7L_Bit07 I8L_Bit08 I9L_Bit09 I10L_Bit10 I11L_Bit11 I12L_Bit12 I13L_Bit13 I14L_Bit14 I15L_Bit15 I16L_Bit16-alto
+			O1R_Inteiro
+
+	87	Mensagem Mensagem 
+		I1L_Validação_função I2L_Val1 I3L_Val2
+		O1R_Saída 
+
+	88   Entrada_de_um_inteiro_10bits  NUM_IN_10_BITS_(Entrada_de_um_inteiro_10bits)    
+			O1R_Entrada_valor
+			
+	89   Saída_de_um_inteiro_10bits	NUM_OUT_10_BITS_(Saída_de_um_inteiro_10bits)   
+			I1L_Saída_valor
+	
+	
+	91   Temporizador_A/C_instrução_ext Temporizador_A/C_instrução_ext (Temporizador_A/C)    
+	   		I1L_Comando	I2L_Reinicialização	 I3L_valor_instrução_atraso_arranque I4L_valor_instrução_atraso_paragem
+	   		O1R_Saída O2R_Valor_actual_atraso_arranque	O3R_Valor_actual_atraso_paragem
+
+	92   Temporização_dupla_2	Timer_Li_2_(Temporização_dupla)   
+	   		I1L_Comando I2L_Valor_instrução_arranque I3L_Valor_instrução_paragem I4L_Número/Duração_intermitências
+	   		O1R_Saída O2R_Valor_actual_arranque  O3R_Valor_actual_paragem  O4R_Valor_actual_número/duração_intermitências
+	
+
+	93   Temporizador_B/H_2   TIMER_B/H_2_(Temporizador_B/H)
+	   		I1L_Comando I2L_Reinicialização  I3L_Valor_instrução_arranque 
+	   		O1R_Saída O2R_Valor_actual_arranque   
+
+	
+	95   Entrada_Ligação_Série	Entrada_Ligação_Série_(Entrada_Ligação_Série)
+			O1R_entrada_1 O2R_entrada_2 O3R_entrada_3 O4R_entrada_4 O5R_entrada_5 O6R_entrada_6 O7R_entrada_7 O8R_entrada_8
+	
+	96   Saída_Ligação_Série Saída_Ligação_Série_(Saída_Ligação_Série)
+		I1L_Saída_1	 I2L_Saída_2	 I3L_Saída_3	 I4L_Saída_4 I5L_Saída_5 I6L_Saída_6 I7L_Saída_7 I8L_Saída_8
+
+
+
+
+	98	FBD_TEXT_(Texto)
+		I1L_Set I2L_Reset I3L_Valor_1 I4L_Valor_2 I5L_Valor_3 I6L_Valor_4
+		
+	99  Nascer_pôr_do_sol SUNRISE_(Nascer_pôr_do_sol)
+	    I1L_Activação I2L_Longitude I3L_Latitude I4L_Fuso_horário
+	    O1R_Nascer_do_sol O2R_Hora_de_nascer_do_sol O3R_Minuto_de_nascer_do_sol  O4R_Hora_de_pôr_do_sol O5R_Minuto_de_pôr_do_sol 
+		
+	100 Suntrack SUNTRACK_(Suntrack)
+	    I1L_Activação I2L_Longitude I3L_Latitude I4L_Fuso_horário
+	    O1R_Ângulo_de_elevação O2R_Ângulo_de_azimute
+
+
+	
+// Funções LD ///////////////////////////////////////////////////////////////
+
+	151 Comparadores_analógicos Comparador_Analógico
+		O1R_Contacto   O2R_Actual_X1	O3R_Actual_X2	O4R_Histerese  O5R_Referência
+		
+	152	Contadores		 	Contadores		 	
+		I1L_Contagem	I2L_Direcção_de_contagem	I3L_Inicialização
+		O1R_Contacto		O2R_Pré-selecção	O3R_Actual
+
+
+	153	Temporizadores		 	Temporizador	 	
+		I1L_Comando    I2L_Reset
+		O1R_Contacto O2R_Pré-selecção_A O3R_Actual_A O4R_Pré-selecção_B	O5R_Actual_B
+
+	154	Blocos_textos		 	Bloco_texto		 	
+		I1L_Validação_função    I2L_Reset
+	
+		
+	155	Relógios		 	Relógio		 	
+		O1R_Contacto
+		
+	156	Relés_auxiliares		Relé_auxiliar		
+		I1L_Activo_no_estado_(Contactor) I2L_Activo_na_frente_(Telerruptor) I3L_Memorização_activação_(Set) I4L_Memorização_desactivação_(Reset)		
+		O1R_Contacto
+		
+	157	Comparadores_de_contadores	Comparador_de_contadores
+		I1L_Contador_CX	I2L_Contador_CY
+		O1R_Contacto    	O2R_Offset_X	O3R_Offset_Y
+		
+	161	Entradas_DIG		 	Entrada_DIG		 	
+		O1R_Contacto
+		
+	162	Teclas_Zx	Tecla		 	
+		O1R_Contacto
+
+	166	Saídas_DIG		Saída_DIG		
+		I1L_Activo_no_estado_(Contactor) I2L_Activo_na_frente_(Telerruptor) I3L_Memorização_activação_(Set) I4L_Memorização_desactivação_(Reset)		
+		O1R_Contacto
+
+	167 Retro-iluminação_LCD   Retro-iluminação_LCD    
+		I1L_Validação_função
+
+	168	Verão_Inverno	Verão_Inverno		 	
+		O1R_Contacto    
+			
+//	169	IN_DIG_BUS	IN_DIG_BUS		 	
+//		O1R_ENTRADA_DIG_BUS
+		
+//	170	OUT_DIG_BUS	OUT_DIG_BUS		
+//		I1L_ACTIVO_NO_ESTADO_(CONTACTOR)   I2L_ACTIVO_NA_FRENTE_(TELERRUPTOR)
+//		I3L_MEMORIZAÇÃO_ACTIVAÇÃO_(SET) I4L_MEMORIZAÇÃO_DESACTIVAÇÃO_(RESET)		
+//		O1R_SAÍDA
+			
+	173	Contador_rápido	Contador_rápido		 	
+		I1L_Validação_função	I2L_Inicialização
+		O1R_Contacto O2R_Pré-selecção	O3R_Actual O4R_Actual_temporização
+
+	174	Mensagem		 	Mensagem		 	
+		I1L_Validação_função	I2L_Val1 I3L_Val2
+		O1R_Contacto 
+	
+
+			
+FIN_CATALOGUE_DES_NOMS_DE_FONCTIONS
+

@@ -1,0 +1,614 @@
+;******************************************************************************
+;*   COPYRIGHT (C) 2002-2005 TEXAS INSTRUMENTS INCORPORATED.
+;*   ALL RIGHTS RESERVED. ONLY USE WITH TEXAS INSTRUMENTS SILICON.
+;******************************************************************************
+;*
+;*   FILE:           usbuart3410.INF
+;*   SUBSYSTEM:      UMP Devices
+;*
+;*   ABSTRACT:       Texas Instruments Driver Installation file for
+;*                   a UMP Device main driver.
+;*                   UMP installation file for TIUSB3410
+;*
+;*   DRG 09-05-08 Changes for signing 6.5.9003.1
+;*
+;******************************************************************************
+;*
+[Version]
+Signature="$WINDOWS NT$"
+Class=Ports
+ClassGuid={4d36e978-e325-11ce-bfc1-08002be10318}
+Provider=%TIInc%
+DriverVer=05/09/2008,6.5.9003.1
+CatalogFile=ump3410win2008server.cat
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksNames]
+1 = %DiskId%
+
+[SourceDisksFiles]
+umpfmt9234zbausb.i51=1
+umpfmt9234zbausbavaya.i51=1
+umpfmt9234mu.i51 = 1
+umpfcdma.i51 = 1
+umpfgsm.i51 = 1
+umpfedge.i51 = 1
+umpf3410.i51 = 1
+umpusbvista.sys = 1
+
+
+;*****************************************
+; 3410  Install Section
+;*****************************************
+
+[Manufacturer]
+%TI.Mfg%=TI.Section,NTx86, NTamd64, NTia64
+
+; For Win2K because it cannot parse decorated sections.
+[TI.Section]
+;
+; These are the toaster bus pnp ids
+;
+%3410.DeviceDesc%=3410_Device, USB\VID_0451&PID_3410
+%341A.DeviceDesc%=3410_Device, USB\VID_0451&PID_341A
+%0319.DeviceDesc%=3410_Device_ZBAAV, USB\VID_06E0&PID_0319      ; AVAYA Version
+%F115.DeviceDesc%=3410_Device_ZBA, USB\VID_06E0&PID_F115	; MTS ZBA-USB
+%F114.DeviceDesc%=3410_Device_MU, USB\VID_06E0&PID_F114	        ; MultiMobile Mt9234MU
+%F110.DeviceDesc%=3410_Device_CDMA, USB\VID_06E0&PID_F110	; MTS CDMA
+%F111.DeviceDesc%=3410_Device_GSM, USB\VID_06E0&PID_F111	; MTS GSM
+%F112.DeviceDesc%=3410_Device_EDGE, USB\VID_06E0&PID_F112	; MTS EDGE
+
+; For XP and later
+[TI.Section.NTx86]
+%3410.DeviceDesc%=3410_Device, USB\VID_0451&PID_3410
+%341A.DeviceDesc%=3410_Device, USB\VID_0451&PID_341A
+%0319.DeviceDesc%=3410_Device_ZBAAV, USB\VID_06E0&PID_0319	; AVAYA Version
+%F115.DeviceDesc%=3410_Device_ZBA, USB\VID_06E0&PID_F115	; MTS ZBA-USB
+%F114.DeviceDesc%=3410_Device_MU, USB\VID_06E0&PID_F114	        ; MultiMobile Mt9234MU
+%F110.DeviceDesc%=3410_Device_CDMA, USB\VID_06E0&PID_F110	; MTS CDMA
+%F111.DeviceDesc%=3410_Device_GSM, USB\VID_06E0&PID_F111	; MTS GSM
+%F112.DeviceDesc%=3410_Device_EDGE, USB\VID_06E0&PID_F112	; MTS EDGE
+
+[TI.Section.NTamd64]
+%3410.DeviceDesc%=3410_Device, USB\VID_0451&PID_3410
+%341A.DeviceDesc%=3410_Device, USB\VID_0451&PID_341A
+%0319.DeviceDesc%=3410_Device_ZBAAV, USB\VID_06E0&PID_0319	; AVAYA Version
+%F115.DeviceDesc%=3410_Device_ZBA, USB\VID_06E0&PID_F115	; MTS ZBA-USB
+%F114.DeviceDesc%=3410_Device_MU, USB\VID_06E0&PID_F114	        ; MultiMobile Mt9234MU
+%F110.DeviceDesc%=3410_Device_CDMA, USB\VID_06E0&PID_F110	; MTS CDMA
+%F111.DeviceDesc%=3410_Device_GSM, USB\VID_06E0&PID_F111	; MTS GSM
+%F112.DeviceDesc%=3410_Device_EDGE, USB\VID_06E0&PID_F112	; MTS EDGE
+
+[TI.Section.NTia64]
+%3410.DeviceDesc%=3410_Device, USB\VID_0451&PID_3410
+%341A.DeviceDesc%=3410_Device, USB\VID_0451&PID_341A
+%0319.DeviceDesc%=3410_Device_ZBAAV, USB\VID_06E0&PID_0319	; AVAYA Version
+%F115.DeviceDesc%=3410_Device_ZBA, USB\VID_06E0&PID_F115	; MTS ZBA-USB
+%F114.DeviceDesc%=3410_Device_MU, USB\VID_06E0&PID_F114	        ; MultiMobile Mt9234MU
+%F110.DeviceDesc%=3410_Device_CDMA, USB\VID_06E0&PID_F110	; MTS CDMA
+%F111.DeviceDesc%=3410_Device_GSM, USB\VID_06E0&PID_F111	; MTS GSM
+%F112.DeviceDesc%=3410_Device_EDGE, USB\VID_06E0&PID_F112	; MTS EDGE
+
+; -----------------------------------------------------------------------------
+; Class Installer
+; -----------------------------------------------------------------------------
+[ClassInstall32.NT]
+AddReg=PortsClass.NT.AddReg
+
+[PortsClass.NT.AddReg]
+HKR,,,,%PortsClassName%
+HKR,,Icon,,"-23"
+HKR,,Installer32,,"MsPorts.Dll,PortsClassInstaller"
+
+;------------------------------------------------------------------------------
+
+;
+; 3410_Device
+;
+
+
+[3410_Device.NT]
+Include=msports.inf
+Needs=SerialEnumerator.NT
+CopyFiles=Drivers_Dir
+AddReg = 3410_Device.NT.AddReg
+
+[3410_Device.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[3410_Device.NT.HW]
+AddReg=3410_Device.NT.HW.AddReg
+
+[3410_Device.NT.HW.AddReg]                            
+HKR,,ImageFile,,"\SystemRoot\System32\drivers\umpfmt9234zbausb.i51"
+HKR,,SetMSRLinesZero,%REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS
+HKR,,SetMSRLinesOne, %REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS 
+HKR,,NumComPorts,%REG_DWORD%,0x01
+HKR,,NumLptPorts,%REG_DWORD%,0x00
+HKR,,"UpperFilters", 0x00010000, "serenum"
+
+
+[Drivers_Dir]
+umpusbvista.sys
+umpfmt9234zbausb.i51
+
+;-------------- Service installation
+[3410_Device.NT.Services]
+Include=msports.inf
+Needs=SerialEnumerator.NT.Services
+AddService = umpusbvista, 0x00000002, usbuart_Service_Inst
+
+; -------------- 3410 driver install sections
+[usbuart_Service_Inst]
+DisplayName    = %StandardUMPUSB.SvcDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+3410_Device_CoInstaller_CopyFiles = 11
+
+[3410_Device.NT.CoInstallers]
+AddReg=3410_Device_CoInstaller_AddReg
+CopyFiles=3410_Device_CoInstaller_CopyFiles
+
+[3410_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[3410_Device_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[3410_Device.NT.Wdf]
+KmdfService = TI3410, TI3410_wdfsect
+[TI3410_wdfsect]
+KmdfLibraryVersion = 1.5
+
+
+;
+;  3410_Device_ZBAAV AVAYA
+;
+[3410_Device_ZBAAV.NT]
+Include=msports.inf
+Needs=SerialEnumerator.NT
+CopyFiles=3410_Device_ZBAAV_Drivers_Dir
+AddReg = 3410_Device_ZBAAV.NT.AddReg
+
+[3410_Device_ZBAAV.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[3410_Device_ZBAAV.NT.HW]
+AddReg=3410_Device_ZBAAV.NT.HW.AddReg
+
+[3410_Device_ZBAAV.NT.HW.AddReg]
+HKR,,ImageFile,,"\SystemRoot\System32\drivers\umpfmt9234zbausbavaya.i51"
+HKR,,SetMSRLinesZero,%REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS
+HKR,,SetMSRLinesOne, %REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS 
+HKR,,NumComPorts,%REG_DWORD%,0x01
+HKR,,NumLptPorts,%REG_DWORD%,0x00
+HKR,,"UpperFilters", 0x00010000, "serenum"
+
+[3410_Device_ZBAAV_Drivers_Dir]
+umpusbvista.sys
+umpfmt9234zbausbavaya.i51
+
+;-------------- Service installation
+[3410_Device_ZBAAV.NT.Services]
+Include=msports.inf
+Needs=SerialEnumerator.NT.Services
+AddService = umpusbvista, 0x00000002, usbuart_Service_Inst_ZBAAV
+
+; -------------- 3410 driver install sections
+[usbuart_Service_Inst_ZBAAV]
+DisplayName    = %StandardUMPUSB.SvcDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+3410_Device_ZBAAV_CoInstaller_CopyFiles = 11
+
+[3410_Device_ZBAAV.NT.CoInstallers]
+AddReg=3410_Device_ZBAAV_CoInstaller_AddReg
+CopyFiles=3410_Device_ZBAAV_CoInstaller_CopyFiles
+
+[3410_Device_ZBAAV_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[3410_Device_ZBAAV_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[3410_Device_ZBAAV.NT.Wdf]
+KmdfService = TI3410, TI3410_wdfsect_ZBAAV
+[TI3410_wdfsect_ZBAAV]
+KmdfLibraryVersion = 1.5
+
+
+
+;
+;  3410_Device_ZBA
+;
+[3410_Device_ZBA.NT]
+Include=msports.inf
+Needs=SerialEnumerator.NT
+CopyFiles=3410_Device_ZBA_Drivers_Dir
+AddReg = 3410_Device_ZBA.NT.AddReg
+
+[3410_Device_ZBA.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[3410_Device_ZBA.NT.HW]
+AddReg=3410_Device_ZBA.NT.HW.AddReg
+
+[3410_Device_ZBA.NT.HW.AddReg]
+HKR,,ImageFile,,"\SystemRoot\System32\drivers\umpfmt9234zbausb.i51"
+HKR,,SetMSRLinesZero,%REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS
+HKR,,SetMSRLinesOne, %REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS 
+HKR,,NumComPorts,%REG_DWORD%,0x01
+HKR,,NumLptPorts,%REG_DWORD%,0x00
+HKR,,"UpperFilters", 0x00010000, "serenum"
+
+[3410_Device_ZBA_Drivers_Dir]
+umpusbvista.sys
+umpfmt9234zbausb.i51
+
+;-------------- Service installation
+[3410_Device_ZBA.NT.Services]
+Include=msports.inf
+Needs=SerialEnumerator.NT.Services
+AddService = umpusbvista, 0x00000002, usbuart_Service_Inst_ZBA
+
+; -------------- 3410 driver install sections
+[usbuart_Service_Inst_ZBA]
+DisplayName    = %StandardUMPUSB.SvcDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+3410_Device_ZBA_CoInstaller_CopyFiles = 11
+
+[3410_Device_ZBA.NT.CoInstallers]
+AddReg=3410_Device_ZBA_CoInstaller_AddReg
+CopyFiles=3410_Device_ZBA_CoInstaller_CopyFiles
+
+[3410_Device_ZBA_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[3410_Device_ZBA_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[3410_Device_ZBA.NT.Wdf]
+KmdfService = TI3410, TI3410_wdfsect_ZBA
+[TI3410_wdfsect_ZBA]
+KmdfLibraryVersion = 1.5
+
+
+;
+;  3410_Device_MU
+;
+[3410_Device_MU.NT]
+Include=msports.inf
+Needs=SerialEnumerator.NT
+CopyFiles=3410_Device_MU_Drivers_Dir
+AddReg = 3410_Device_MU.NT.AddReg
+
+[3410_Device_MU.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[3410_Device_MU.NT.HW]
+AddReg=3410_Device_MU.NT.HW.AddReg
+
+[3410_Device_MU.NT.HW.AddReg]
+HKR,,ImageFile,,"\SystemRoot\System32\drivers\umpfmt9234mu.i51"
+HKR,,SetMSRLinesZero,%REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS
+HKR,,SetMSRLinesOne, %REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS 
+HKR,,NumComPorts,%REG_DWORD%,0x01
+HKR,,NumLptPorts,%REG_DWORD%,0x00
+HKR,,"UpperFilters", 0x00010000, "serenum"
+
+[3410_Device_MU_Drivers_Dir]
+umpusbvista.sys
+umpfmt9234mu.i51
+
+;-------------- Service installation
+[3410_Device_MU.NT.Services]
+Include=msports.inf
+Needs=SerialEnumerator.NT.Services
+AddService = umpusbvista, 0x00000002, usbuart_Service_Inst_MU
+
+; -------------- 3410 driver install sections
+[usbuart_Service_Inst_MU]
+DisplayName    = %StandardUMPUSB.SvcDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+3410_Device_MU_CoInstaller_CopyFiles = 11
+
+[3410_Device_MU.NT.CoInstallers]
+AddReg=3410_Device_MU_CoInstaller_AddReg
+CopyFiles=3410_Device_MU_CoInstaller_CopyFiles
+
+[3410_Device_MU_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[3410_Device_MU_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[3410_Device_MU.NT.Wdf]
+KmdfService = TI3410, TI3410_wdfsect_MU
+[TI3410_wdfsect_MU]
+KmdfLibraryVersion = 1.5
+
+;
+;  3410_Device_CDMA
+;
+[3410_Device_CDMA.NT]
+Include=msports.inf
+Needs=SerialEnumerator.NT
+CopyFiles=3410_Device_CDMA_Drivers_Dir
+AddReg = 3410_Device_CDMA.NT.AddReg
+
+[3410_Device_CDMA.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[3410_Device_CDMA.NT.HW]
+AddReg=3410_Device_CDMA.NT.HW.AddReg
+
+[3410_Device_CDMA.NT.HW.AddReg]
+HKR,,ImageFile,,"\SystemRoot\System32\drivers\umpfcdma.i51"
+HKR,,SetMSRLinesZero,%REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS
+HKR,,SetMSRLinesOne, %REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS 
+HKR,,NumComPorts,%REG_DWORD%,0x01
+HKR,,NumLptPorts,%REG_DWORD%,0x00
+HKR,,"UpperFilters", 0x00010000, "serenum"
+
+[3410_Device_CDMA_Drivers_Dir]
+umpusbvista.sys
+umpfcdma.i51
+
+;-------------- Service installation
+[3410_Device_CDMA.NT.Services]
+Include=msports.inf
+Needs=SerialEnumerator.NT.Services
+AddService = umpusbvista, 0x00000002, usbuart_Service_Inst_CDMA
+
+; -------------- 3410 driver install sections
+[usbuart_Service_Inst_CDMA]
+DisplayName    = %StandardUMPUSB.SvcDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+3410_Device_CDMA_CoInstaller_CopyFiles = 11
+
+[3410_Device_CDMA.NT.CoInstallers]
+AddReg=3410_Device_CDMA_CoInstaller_AddReg
+CopyFiles=3410_Device_CDMA_CoInstaller_CopyFiles
+
+[3410_Device_CDMA_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[3410_Device_CDMA_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[3410_Device_CDMA.NT.Wdf]
+KmdfService = TI3410, TI3410_wdfsect_CDMA
+[TI3410_wdfsect_CDMA]
+KmdfLibraryVersion = 1.5
+
+;
+;  3410_Device_GSM
+;
+[3410_Device_GSM.NT]
+Include=msports.inf
+Needs=SerialEnumerator.NT
+CopyFiles=3410_Device_GSM_Drivers_Dir
+AddReg = 3410_Device_GSM.NT.AddReg
+
+[3410_Device_GSM.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[3410_Device_GSM.NT.HW]
+AddReg=3410_Device_GSM.NT.HW.AddReg
+
+[3410_Device_GSM.NT.HW.AddReg]
+HKR,,ImageFile,,"\SystemRoot\System32\drivers\umpfgsm.i51"
+HKR,,SetMSRLinesZero,%REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS
+HKR,,SetMSRLinesOne, %REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS 
+HKR,,NumComPorts,%REG_DWORD%,0x01
+HKR,,NumLptPorts,%REG_DWORD%,0x00
+HKR,,"UpperFilters", 0x00010000, "serenum"
+
+[3410_Device_GSM_Drivers_Dir]
+umpusbvista.sys
+umpfgsm.i51
+
+;-------------- Service installation
+[3410_Device_GSM.NT.Services]
+Include=msports.inf
+Needs=SerialEnumerator.NT.Services
+AddService = umpusbvista, 0x00000002, usbuart_Service_Inst_GSM
+
+; -------------- 3410 driver install sections
+[usbuart_Service_Inst_GSM]
+DisplayName    = %StandardUMPUSB.SvcDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+3410_Device_GSM_CoInstaller_CopyFiles = 11
+
+[3410_Device_GSM.NT.CoInstallers]
+AddReg=3410_Device_GSM_CoInstaller_AddReg
+CopyFiles=3410_Device_GSM_CoInstaller_CopyFiles
+
+[3410_Device_GSM_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[3410_Device_GSM_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[3410_Device_GSM.NT.Wdf]
+KmdfService = TI3410, TI3410_wdfsect_GSM
+[TI3410_wdfsect_GSM]
+KmdfLibraryVersion = 1.5
+
+
+;
+;  3410_Device_EDGE
+;
+[3410_Device_EDGE.NT]
+Include=msports.inf
+Needs=SerialEnumerator.NT
+CopyFiles=3410_Device_EDGE_Drivers_Dir
+AddReg = 3410_Device_EDGE.NT.AddReg
+
+[3410_Device_EDGE.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[3410_Device_EDGE.NT.HW]
+AddReg=3410_Device_EDGE.NT.HW.AddReg
+
+[3410_Device_EDGE.NT.HW.AddReg]
+HKR,,ImageFile,,"\SystemRoot\System32\drivers\umpfedge.i51"
+HKR,,SetMSRLinesZero,%REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS
+HKR,,SetMSRLinesOne, %REG_BINARY%,0x00  ; 0x80=DCD 0x40=RI 0x20=DSR 0x10=CTS 
+HKR,,NumComPorts,%REG_DWORD%,0x01
+HKR,,NumLptPorts,%REG_DWORD%,0x00
+HKR,,"UpperFilters", 0x00010000, "serenum"
+
+[3410_Device_EDGE_Drivers_Dir]
+umpusbvista.sys
+umpfedge.i51
+
+;-------------- Service installation
+[3410_Device_EDGE.NT.Services]
+Include=msports.inf
+Needs=SerialEnumerator.NT.Services
+AddService = umpusbvista, 0x00000002, usbuart_Service_Inst_EDGE
+
+; -------------- 3410 driver install sections
+[usbuart_Service_Inst_EDGE]
+DisplayName    = %StandardUMPUSB.SvcDesc%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+3410_Device_EDGE_CoInstaller_CopyFiles = 11
+
+[3410_Device_EDGE.NT.CoInstallers]
+AddReg=3410_Device_EDGE_CoInstaller_AddReg
+CopyFiles=3410_Device_EDGE_CoInstaller_CopyFiles
+
+[3410_Device_EDGE_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[3410_Device_EDGE_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[3410_Device_EDGE.NT.Wdf]
+KmdfService = TI3410, TI3410_wdfsect_EDGE
+[TI3410_wdfsect_EDGE]
+KmdfLibraryVersion = 1.5
+
+
+
+
+
+
+[Strings]
+;
+; Non-Localizable Strings
+;
+
+REG_DWORD      = 0x00010001
+REG_BINARY     = 0x00000001
+;
+; Localizable Strings
+;
+
+TIInc="Texas Instruments, Inc"
+TI.Mfg="Texas Instruments"
+DiskId = "TI UMP Installation Disk"
+PortsClassName = "UMP USB Serial Port"
+3410.DeviceDesc = "TUSB3410 Device"
+341A.DeviceDesc = "TUSB3410 UART EVM"
+0319.DeviceDesc = "MT9234ZBA-USB Multimodem"
+F115.DeviceDesc= "MT9234ZBA-USB Multimodem"
+F114.DeviceDesc= "MultiMobile MT9234MU "
+F110.DeviceDesc= "CDMA Device "                           
+F111.DeviceDesc= "GSM Device "                           
+F112.DeviceDesc= "EDGE Device " 
+StandardUMPUSB.SvcDesc="Texas Instruments USB Serial Driver"

@@ -1,0 +1,210 @@
+;******************************************************************************
+;*   COPYRIGHT (C) 2002-2005 TEXAS INSTRUMENTS INCORPORATED.
+;*   ALL RIGHTS RESERVED. ONLY USE WITH TEXAS INSTRUMENTS SILICON.
+;******************************************************************************
+;*
+;*   FILE:           umpcom.INF
+;*   SUBSYSTEM:      UMP Devices
+;*
+;*   ABSTRACT:       Texas Instruments Driver Installation file for
+;*                   a UMP Serial Port
+;*   
+;*   Version :       2.0 
+;*
+;*   DRG 09-05-08 Changes for signing. 6.6.1000.1
+;* 
+;******************************************************************************
+;*
+[Version]
+Signature="$WINDOWS NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%TIInc%
+DriverVer=09/05/2008,6.6.1000.1
+CatalogFile=UMPCOMvista32.cat
+
+[ControlFlags]
+ExcludeFromSelect = umpport\VID_06E0_com
+ExcludeFromSelect = umpport\VID_0451_port1
+ExcludeFromSelect = umpport\VID_0451_port2
+
+[DestinationDirs]
+;SerialEnumerator.NT.Copy=12  ;DIRID_DRIVERS
+;TIUMPSER.NT.CopyFiles=12
+DefaultDestDir = 11
+
+[SourceDisksNames]
+1=%DiskString%
+
+[SourceDisksFiles]
+umpusbvista.sys = 1
+
+; -----------------------------------------------------------------------------
+; Table of Contents:  manufacturer, then devices.
+; -----------------------------------------------------------------------------
+[Manufacturer]
+%TIUMP%=TIUMP,NTx86, NTamd64, NTia64
+
+; -----------------------------------------------------------------------------
+; The devices
+; -----------------------------------------------------------------------------
+[TIUMP]
+; ****  Release 1.2.10.96: These lines replace line with "umpport\com" *****
+; ****    Vendor replace Texas Instruments VID with your own VID       *****
+; single port on 3410:
+%TIUMP.Com.Desc% = TIUMPSER.Install, umpport\VID_06E0_com
+; the two ports on a 5x52:
+%TIUMP.Port1.Desc% = TIUMPSER.Install, umpport\VID_0451_port1
+%TIUMP.Port2.Desc% = TIUMPSER.Install, umpport\VID_0451_port2
+; ****
+
+; -----------------------------------------------------------------------------
+; The devices
+; -----------------------------------------------------------------------------
+[TIUMP.NTx86]
+; ****  Release 1.2.10.96: These lines replace line with "umpport\com" *****
+; ****    Vendor replace Texas Instruments VID with your own VID       *****
+; single port on 3410:
+%TIUMP.Com.Desc% = TIUMPSER.Install, umpport\VID_06E0_com
+; the two ports on a 5x52:
+%TIUMP.Port1.Desc% = TIUMPSER.Install, umpport\VID_0451_port1
+%TIUMP.Port2.Desc% = TIUMPSER.Install, umpport\VID_0451_port2
+; ****
+
+[TIUMP.NTamd64]
+; ****  Release 1.2.10.96: These lines replace line with "umpport\com" *****
+; ****    Vendor replace Texas Instruments VID with your own VID       *****
+; single port on 3410:
+%TIUMP.Com.Desc% = TIUMPSER.Install, umpport\VID_06E0_com
+; the two ports on a 5x52:
+%TIUMP.Port1.Desc% = TIUMPSER.Install, umpport\VID_0451_port1
+%TIUMP.Port2.Desc% = TIUMPSER.Install, umpport\VID_0451_port2
+; ****
+
+[TIUMP.NTia64]
+; ****  Release 1.2.10.96: These lines replace line with "umpport\com" *****
+; ****    Vendor replace Texas Instruments VID with your own VID       *****
+; single port on 3410:
+%TIUMP.Com.Desc% = TIUMPSER.Install, umpport\VID_06E0_com
+; the two ports on a 5x52:
+%TIUMP.Port1.Desc% = TIUMPSER.Install, umpport\VID_0451_port1
+%TIUMP.Port2.Desc% = TIUMPSER.Install, umpport\VID_0451_port2
+; ****
+
+; -----------------------------------------------------------------------------
+; Class Installer
+; -----------------------------------------------------------------------------
+[ClassInstall32.NT]
+AddReg=PortsClass.NT.AddReg
+
+[PortsClass.NT.AddReg]
+HKR,,,,%PortsClassName%
+HKR,,Icon,,"-23"
+HKR,,Installer32,,"MsPorts.Dll,PortsClassInstaller"
+
+
+; -----------------------------------------------------------------------------
+;       TIUMPSER.SYS Device installation
+; -----------------------------------------------------------------------------
+
+; -----------------------------------------------------------------------------
+;       How to install the WDM driver on NT
+; -----------------------------------------------------------------------------
+[TIUMPSER.Install.NT]
+;Include=msports.inf
+;Needs=SerialEnumerator.NT
+CopyFiles                       = TIUMPSER.NT.CopyFiles
+;CopyFiles                       = SerialEnumerator.NT.Copy
+AddReg                          = TIUMPSER.NT.AddReg
+; addreg and copy files for serenum.sys
+
+; -----------------------------------------------------------------------------
+;       How to start the WDM driver on NT
+; -----------------------------------------------------------------------------
+[TIUMPSER.Install.NT.Services]
+;Include=msports.inf
+;Needs=SerialEnumerator.NT.Services
+AddService              = umpusbvista, 0x00000002, TIUMPSER.AddService
+; install the serenum service itself
+
+[TIUMPSER.AddService]
+DisplayName             = %TIUMP.Com.ServiceDesc%
+ServiceType             = 1     ; SERVICE_KERNEL_DRIVER
+StartType               = 3     ; SERVICE_DEMAND_START
+ErrorControl            = 1     ; SERVICE_ERROR_NORMAL
+ServiceBinary           = %12%\umpusbvista.sys
+LoadOrderGroup          = Extended Base
+
+; -----------------------------------------------------------------------------
+;       WDM registry entries (NT only)
+; -----------------------------------------------------------------------------
+[TIUMPSER.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+; -----------------------------------------------------------------------------
+;       The WDM copy list for NT -- different because things go in
+;       different places.
+; -----------------------------------------------------------------------------
+[TIUMPSER.NT.CopyFiles]
+;umpusbvista.sys
+
+
+; -----------------------------------------------------------------------------
+;   The Hardware list for NT.  This comes from msports.inf for ComPorts.
+; -----------------------------------------------------------------------------
+[TIUMPSER.Install.NT.HW]
+AddReg = TIUMPSER.NT.HW.AddReg
+
+[TIUMPSER.NT.HW.AddReg]
+HKR,,"UpperFilters", 0x00010000, "umpserenum"
+
+;
+;--- 3410_Device WDF Coinstaller installation ------
+;
+[DestinationDirs]
+TIUMPSER_Device_CoInstaller_CopyFiles = 11
+
+[TIUMPSER_Device.NT.CoInstallers]
+AddReg=TIUMPSER_Device_CoInstaller_AddReg
+CopyFiles=TIUMPSER_Device_CoInstaller_CopyFiles
+
+[TIUMPSER_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01005.dll,WdfCoInstaller"
+
+[TIUMPSER_Device_CoInstaller_CopyFiles]
+wdfcoinstaller01005.dll
+
+[SourceDisksFiles]
+wdfcoinstaller01005.dll=1 ; make sure the number matches with SourceDisksNames
+
+[TIUMPSER_Device.NT.Wdf]
+KmdfService = TIUMPSER, TIUMPSER_wdfsect
+[TIUMPSER_wdfsect]
+KmdfLibraryVersion = 1.5
+
+; -----------------------------------------------------------------------------
+; Localizable Strings
+; -----------------------------------------------------------------------------
+
+
+[Strings]
+
+TIInc="Texas Instruments"
+DiskString= " "
+PortsClassName= "UMP USB Serial Port "
+TIUMP= "Texas Instruments"
+TIUMP.Com.ServiceDesc   = "UMP Serial Port Driver "
+DiskId = "TI UMP Installation Disk "
+StandardUMPUSB.SvcDesc="Texas Instruments UMP Device Driver "
+; ****  Release 1.2.10.96: One of these names displays in the Device Manager list *****
+TIUMP.Com.Desc          = "USB - Serial Port"
+TIUMP.Port1.Desc          = "USB - 1st Serial Port"
+TIUMP.Port2.Desc          = "USB - 2nd Serial Port"
+; ****
+TIUMP.Service.Desc      = "UMP USB Serial Port "
+UpperDescription        = "UMP USB Serial Port "
+
+
+;END ENG - US English Strings
+;*** end of file ***
